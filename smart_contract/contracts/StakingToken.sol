@@ -10,7 +10,8 @@ import "@openzeppelin/contracts/ownership/Ownable.sol";
 // import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v2.5.0/contracts/ownership/Ownable.sol";
 
 
-contract StakingToken is ERC20, Ownable {
+contract StakingToken is ERC20, Ownable { 
+   
    using SafeMath for uint256;
 
    constructor(address _owner, uint256 _supply) public {
@@ -19,29 +20,25 @@ contract StakingToken is ERC20, Ownable {
    
    address[] internal stakeholders;
 
-    function isStakeholder(address _address) public view returns(bool, uint256) {
+   function isStakeholder(address _address) public view returns(bool, uint256) {
         for( uint256 s = 0; s < stakeholders.length; s++){
             if(_address == stakeholders[s])
                 return (true, s);
         }
         return (false, 0);
-    }
-
-    function addStakeholder(address _stakeholder) public {
+   }
+   function addStakeholder(address _stakeholder) public {
         (bool _isStakeholder, ) = isStakeholder(_stakeholder);
         if(!_isStakeholder)
             stakeholders.push(_stakeholder);
-
-    }
-
-    function removeStakeholder(address _stakeholder) public {
+   }
+   function removeStakeholder(address _stakeholder) public {
        (bool _isStakeholder, uint256 s) = isStakeholder(_stakeholder);
        if(_isStakeholder){
            stakeholders[s] = stakeholders[stakeholders.length - 1];
            stakeholders.pop();
        }
    }
-
     mapping(address => uint256) internal stakes;
 
     function stakeOf(address _stakeholder) public view returns(uint256){
